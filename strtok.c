@@ -37,7 +37,8 @@ unsigned int _strspn(char *s, char *accept)
 char *_strtok(char *str, char *delimiters)
 {
 	char *token;
-    char *nextToken = NULL;
+    static char *nextToken;
+    nextToken = NULL;
 
 	if (str != NULL)
 	{
