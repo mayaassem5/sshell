@@ -38,7 +38,6 @@ char *_strtok(char *str, char *delimiters)
 {
 	char *token;
     static char *nextToken;
-    nextToken = NULL;
 
 	if (str != NULL)
 	{
