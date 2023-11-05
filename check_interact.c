@@ -1,29 +1,36 @@
 #include "shell.h"
 /**
- * check_interact - checks if interactive
+ * interact - checks if interactive
  *
  * Return: void
  */
-void check_interact(void)
+
+void interact(void)
 {
-    int interactive_mode = isatty(fileno(stdin));
-    if (interactive_mode)
-    printf("~$ ");
+	int interactive_mode = isatty(fileno(stdin));
+	char *prompt = "~$ ";
+
+	if (interactive_mode)
+		write(STDOUT_FILENO, prompt, _strlen(prompt));
 }
 
 /**
- * check_fail - checks if failed
- * @len: length of the string
+ * failed - checks failed
  *
- * Return: 1 if failed, 0 if success
+ * @len: len
+ *
+ * Return: 1 if failed
  */
-int check_fail(ssize_t len)
+
+int failed(int len)
 {
-    if (len <= 0)
-    {
-        if (isatty(STDIN_FILENO))
-            printf("$ ");
-        return (1);
-    }
-    return (0);
+	char *prompt = "~$ ";
+
+	if (len <= 0)
+	{
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, prompt, _strlen(prompt));
+		return (1);
+	}
+	return (0);
 }

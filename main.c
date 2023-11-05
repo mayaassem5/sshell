@@ -1,59 +1,55 @@
 #include "shell.h"
 /**
- * main - the Main fucntion of shell
- * @ac: number of arguments
- * @av: arguments
- * @env: environment variables
- * Return: 0 on success
+ * main - Entry point of the program.
+ *
+ * @ac: Number of command-line arguments.
+ * @av: Array of command-line arguments.
+ * @env: Array of environment variables.
+ *
+ * Return: 0 for success.
  */
+
 int main(int ac, char **av, char **env)
 {
-    size_t buffer_size = MAX_SIZE;
-    ssize_t len = 0, x = 0;
-    char *line = NULL;
-    char **argv = NULL;
-    char *plhold = (getenv("PATH")) ? getenv("PATH") : "";
-    char *path = strdup(plhold);
-    (void)ac;
+	size_t n = 0;
+	char *line = NULL;
+	ssize_t inp = 0, exec = 0;
+	char **split;
+	char *wanted = "PATH";
+	char *pathvar = (_getenv(env, wanted)) ? _getenv(env, wanted) : "";
+	char *path = _strdup(pathvar);
+	(void)ac;
 
-    check_interact();
-
-    while (1)
-    {
-        len = getline(&line, &buffer_size, stdin);
-
-        if (check_fail(len))
-            break;
-
-        line[len - 1] = '\0';
-
-        if (strlen(line) == 0)
-        {
-            check_interact();
-            continue;
-        }
-
-        argv = tokenize(line);
-
-        if (argv[0] == NULL)
-            break;
-
-        if (check_env(argv[0], env))
-        {
-            check_interact();
-            continue;
-        }
-
-        if (!strcmp(argv[0], "exit"))
-            break;
-
-        free(path);
-        path = strdup(plhold);
-
-        x = execute(argv, path, av);
-        free(line), line = NULL, free(argv), argv = NULL;
-    }
-
-    free(line), free(argv), free(path);
-    exit(x);
+	interact();
+	while (1)
+	{
+		inp = getline(&line, &n, stdin);
+		if (failed(inp))
+			break;
+		line[inp - 1] = '\0';
+		if (_strlen(line) == 0)
+		{
+			interact();
+			continue;
+		}
+		split = tokenize(line);
+		if (!split[0])
+			continue;
+		if (envcheck(split[0], env))
+		{
+			interact();
+			continue;
+		}
+		if (!_strcmp(split[0], "exit"))
+			break;
+		free(path);
+		path = _strdup(pathvar);
+		exec = execute(split, path, av);
+		free(line), line = NULL;
+		free(split), split = NULL;
+	}
+	free(line);
+	free(split);
+	free(path);
+	exit(exec);
 }

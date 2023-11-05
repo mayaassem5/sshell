@@ -1,29 +1,30 @@
 #include "shell.h"
 /**
- * tokenize - split input into array of words
- * @str: string to be tokenized
+ *tokenize - split input
  *
- * Return: array of words
- */
+ *@str: string
+ *
+ *Return: array of words
+*/
 
 char **tokenize(char *str)
 {
-    char *token;
-    char **words;
-    int i = 0;
+	char *token;
+	char **tokens;
+	int i = 0;
+	char *delimiters = " \t\n";
 
-    words = malloc(sizeof(char *) * MAX_WIDTH);
-    if (words == NULL)
-    {
-        return (NULL);
-    }
-    token = strtok(str, " ");
-    while (token != NULL)
-    {
-        words[i++] = token;
-        token = strtok(NULL, " ");
-    }
-    words[i] = NULL;
-    free(token);
-    return (words);
+	tokens = malloc(sizeof(char *) * 100);
+	if (tokens == NULL)
+		return (NULL);
+
+	token = _strtok(str, delimiters);
+	while (token != NULL)
+	{
+		tokens[i++] = token;
+		token = _strtok(NULL, delimiters);
+	}
+	tokens[i] = NULL;
+	free(token);
+	return (tokens);
 }

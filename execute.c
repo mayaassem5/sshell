@@ -1,42 +1,54 @@
 #include "shell.h"
 /**
- * execute - execute external program
- * @line: string to be executed
+ * execute - execute
+ * @line: string
  * @path: path
- * @av: array of arguments
+ * @av: args
  *
  * Return: void
  */
+
 int execute(char **line, char *path, char **av)
 {
-    int status;
-    char *tok = strtok(path, ":"), final_cmd[MAX_WIDTH];
-    pid_t childpid;
+	int status;
+	char *deli = ":";
+	char *x = _strtok(path, deli);
+	char command[1000];
+	pid_t child;
 
-    while (tok != NULL)
-    {
-        sprintf(final_cmd, "%s%s%s", strchr(line[0], '/') == NULL ? tok : "",
-                strchr(line[0], '/') == NULL ? "/" : "", line[0]);
-        if (access(final_cmd, X_OK) == 0)
-        {
-            childpid = fork();
-            if (childpid < 0)
-                perror("\n");
-            else if (childpid == 0)
-            {
-                if (execvp(final_cmd, line) == -1)
-                    break;
-            }
-            else
-            {
-                wait(&status);
-                check_interact();
-                if (WIFEXITED(status))
-                    return (WEXITSTATUS(status));
-            }
-        }
-        tok = strtok(NULL, ":");
-    }
-    fprintf(stderr, "%s: 1: %s: not found\n", av[0], line[0]);
-    return (127);
+	while (x != NULL)
+	{
+		command[0] = '\0';
+		if (_strchr(line[0], '/') == NULL)
+		{
+			_strcat(command, x);
+			_strcat(command, "/");
+		}
+
+		_strcat(command, line[0]);
+		if (access(command, X_OK) == 0)
+		{
+			child = fork();
+			if (child < 0)
+				perror("\n"), exit(99);
+			else if (child == 0)
+			{
+				if (execve(command, line, av) == -1)
+					perror(av[0]), exit(99);
+			}
+			else
+			{
+				wait(&status);
+				interact();
+				if (WIFEXITED(status))
+					return (WEXITSTATUS(status));
+			}
+		}
+		x = _strtok(NULL, deli);
+	}
+	write(STDERR_FILENO, av[0], _strlen(av[0]));
+	write(STDERR_FILENO, ": 1: ", 5);
+	write(STDERR_FILENO, line[0], _strlen(line[0]));
+	write(STDERR_FILENO, ": not found\n", 12);
+	return (status);
 }
