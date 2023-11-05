@@ -11,8 +11,7 @@
 int execute(char **line, char *path, char **av)
 {
 	int status;
-	char *deli = ":";
-	char *x = _strtok(path, deli);
+	char *deli = ":", *x = _strtok(path, deli);
 	char command[1000];
 	pid_t child;
 
@@ -24,7 +23,6 @@ int execute(char **line, char *path, char **av)
 			_strcat(command, x);
 			_strcat(command, "/");
 		}
-
 		_strcat(command, line[0]);
 		if (access(command, X_OK) == 0)
 		{
