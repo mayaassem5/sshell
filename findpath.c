@@ -21,7 +21,7 @@ char *findpath(char *command, int *r)
 
 	while (tok != NULL)
 	{
-		current = str_concat(tok, command);
+		current = _concat(tok, command);
 		if (stat(current, &stats) == 0)
 		{
 			free(command);
@@ -31,8 +31,8 @@ char *findpath(char *command, int *r)
 		tok = strtok(NULL, ":");
 	}
 
-	error_printing(path, find_length(command), toprint);
-	print_string(": not found", 0);
+	error(path, len(command), toprint);
+	printstr(": not found", 0);
 	free(command);
 	*r = 127;
 	return (NULL);

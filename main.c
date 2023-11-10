@@ -7,7 +7,7 @@ int main(void)
 {	pid_t child;
 	char *line = NULL, **command = NULL;
 	size_t l_len = 0;
-	int status = 0, retVal = 0;
+	int status = 0, r = 0;
 
 	while (1)
 	{
@@ -17,31 +17,31 @@ int main(void)
 			break;
 		if (*line == '\n' || *line == '\t')
 			continue;
-		command = s_tok(line);
+		command = split(line);
 		if (command == NULL)
 			continue;
-		if (check_builtin(line, command, &retVal) == 0)
+		if (built(line, command, &r) == 0)
 		{
 			child = fork();
 			if (child == 0)
 			{
-				if (execve(findpath(command[0], &retVal), command, environ) == -1)
+				if (execve(findpath(command[0], &r), command, environ) == -1)
 				{
-					_free_parent(line, command);
-					exit(retVal);
+					freep(line, command);
+					exit(r);
 				}
 			}
 			else
 			{
 				wait(&status);
-				_free_parent(line, command);
+				freep(line, command);
 				if (WIFEXITED(status))
-					retVal = WEXITSTATUS(status);
+					r = WEXITSTATUS(status);
 			}
 			line = NULL;
 		}
 		else
-			_free_double_pointer(command);
+			freepointer(command);
 	}
 	free(line);
 	exit(status);

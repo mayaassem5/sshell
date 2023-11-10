@@ -10,7 +10,7 @@ void error(char *av, int count, char *command)
 {
 	printstr(av, 1);
 	printstr(": ", 1);
-	printnumb(count);
+	printnum(count);
 	printstr(": ", 1);
 	printstr(command, 1);
 }
@@ -23,8 +23,8 @@ void error(char *av, int count, char *command)
  */
 void execerror(char *av, int count, char *tmp)
 {
-	error_printing(av, count, tmp);
-	print_string(": ", 1);
+	error(av, count, tmp);
+	printstr(": ", 1);
 	perror("");
 	exit(1);
 }

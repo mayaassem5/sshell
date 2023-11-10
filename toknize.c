@@ -32,14 +32,14 @@ char **split(char *str)
 {
 	char deli[] = " \t\n\r";
 	char **command, *tok;
-	unsigned int len, i;
+	unsigned int leng, i;
 
 	str[_strlen(str) - 1] = '\0';
-	len = find_length(str);
-	if (len == 0)
+	leng = len(str);
+	if (leng == 0)
 		return ('\0');
 
-	command = malloc((sizeof(char *) * (len + 1)));
+	command = malloc((sizeof(char *) * (leng + 1)));
 	if (command == NULL)
 		return ('\0');
 
