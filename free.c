@@ -1,37 +1,39 @@
 #include "shell.h"
 
 /**
- * _free_double_pointer - Entry point
- *@d_pointer: double pointer
+ * freepointer - Entry point
+ *@d: double
  * Return: void
  */
-void _free_double_pointer(char **d_pointer)
+
+void freepointer(char **d)
 {
 	unsigned int i = 0;
 
-	if (d_pointer == NULL)
+	if (d == NULL)
 		return;
 
-	while (d_pointer[i])
+	while (d[i])
 	{
-		free(d_pointer[i]);
+		free(d[i]);
 		++i;
 	}
 
-	if (d_pointer[i] == NULL)
-		free(d_pointer[i]);
+	if (d[i] == NULL)
+		free(d[i]);
 
-	free(d_pointer);
+	free(d);
 }
 
 /**
- * _free_parent - Entry point
+ * freep - Entry point
  *@buffer: pointer
  *@commands: double pointer
  * Return: void
  */
-void _free_parent(char *buffer, char **commands)
+
+void freep(char *buffer, char **commands)
 {
 	free(buffer);
-	_free_double_pointer(commands);
+	freepointer(commands);
 }

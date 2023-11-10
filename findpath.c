@@ -1,41 +1,39 @@
 #include "shell.h"
 /**
- * findpath - find the directory of a command
+ * findpath - find the directory
  *@command: string with the command
- *@retVal: return value of exit
- * Return: the directory of the command
+ *@r: return value of exit
+ * Return: the directory
  */
-char *findpath(char *command, int *retVal)
+char *findpath(char *command, int *r)
 {
-	char *path, *commandtoprint;
+	char *path, *toprint;
 	struct stat stats;
-	char *current_source;
-	char *tok;
+	char *current, *tok;
 
 	if (stat(command, &stats) == 0)
 		return (command);
 
 	path = _getenv("PATH");
 	tok = strtok(path, ":");
-	commandtoprint = command;
-	command = str_concat("/", command);
+	toprint = command;
+	command = _concat("/", command);
 
-/*stat() returns 0 on successful operation,*/
-/* otherwise returns -1 if unable to get file properties.*/
 	while (tok != NULL)
 	{
-		current_source = str_concat(tok, command);
-		if (stat(current_source, &stats) == 0)
+		current = str_concat(tok, command);
+		if (stat(current, &stats) == 0)
 		{
 			free(command);
-			return (current_source);
+			return (current);
 		}
-		free(current_source);
+		free(current);
 		tok = strtok(NULL, ":");
 	}
-	error_printing(path, find_length(command), commandtoprint);
+
+	error_printing(path, find_length(command), toprint);
 	print_string(": not found", 0);
 	free(command);
-	*retVal = 127;
+	*r = 127;
 	return (NULL);
 }

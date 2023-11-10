@@ -1,21 +1,5 @@
 #include "shell.h"
 /**
- * _strlen - Function that returns string lenght
- * @s: pointer to string
- * Return: Length
- */
-int _strlen(char *s)
-{
-	int l = 0;
-
-	while (*s != '\0')
-	{
-		l++;
-		s++;
-	}
-	return (l);
-}
-/**
  * _strncmp - Function that returns string lenght
  * @s1: pointer to string
  * @s2: pointer to string
@@ -35,13 +19,14 @@ int _strncmp(char *s1, char *s2, int n)
 	}
 	return (0);
 }
+
 /**
- * str_concat - concatenate to strings
+ * _concat - concatenate to strings
  *@s1: string
  *@s2: string
  * Return: the string concat
  */
-char *str_concat(char *s1, char *s2)
+char *_concat(char *s1, char *s2)
 {
 	char *array;
 	int i = 0, l1 = 0, l2 = 0;
@@ -81,6 +66,24 @@ char *str_concat(char *s1, char *s2)
 	array[i] = '\0';
 	return (array);
 }
+
+/**
+ * _strlen - Function that returns string lenght
+ * @s: pointer to string
+ * Return: Length
+ */
+int _strlen(char *s)
+{
+	int l = 0;
+
+	while (*s != '\0')
+	{
+		l++;
+		s++;
+	}
+	return (l);
+}
+
 /**
  * *_strncpy - check the code for Holberton School students.
  *@dest: char
@@ -103,6 +106,7 @@ char *_strncpy(char *dest, char *src, int n)
 
 	return (dest);
 }
+
 /**
  * _strdup - string duplicate with malloc
  *@str: string
@@ -111,21 +115,21 @@ char *_strncpy(char *dest, char *src, int n)
 char *_strdup(char *str)
 {
 	char *copy;
-	int i, largo = 0;
+	int i, l = 0;
 
 	if (!str)
 		return (NULL);
 
-	while (str[largo] != '\0')
+	while (str[l] != '\0')
 	{
-		largo++;
+		l++;
 	}
 
-	copy = malloc(sizeof(char) * (largo + 1));
+	copy = malloc(sizeof(char) * (l + 1));
 	if (copy == NULL)
 		return (NULL);
 
-	for (i = 0; i <= largo; i++)
+	for (i = 0; i <= l; i++)
 		copy[i] = str[i];
 
 	return (copy);

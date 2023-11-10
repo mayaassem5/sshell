@@ -1,45 +1,46 @@
 #include "shell.h"
 
 /**
- * check_builtin - execute built-ins
+ *built - execute built-ins
  *@line: command line
  *@command: separate tokens
  *@retVal: return value of exit
  * Return: void
  */
 
-int check_builtin(char *line, char **command, int *retVal)
+int built(char *line, char **command, int *retVal)
 {
-	char *b_exit = "exit", *b_env = "env";
+	char *bexit = "exit", *b = "env";
 
-	if (_strncmp(command[0], b_exit, 4) == 0)
+	if (_strncmp(command[0], bexit, 4) == 0)
 	{
-		_free_parent(line, command);
+		freep(line, command);
 		exit(*retVal);
 	}
-	else if (_strncmp(command[0], b_env, 3) == 0)
+	else if (_strncmp(command[0], b, 3) == 0)
 	{
-		built_env(environ);
+		env(environ);
 		return (1);
 	}
 	else
 		return (0);
 }
+
 /**
- * built_env - prints the environment
+ * env - prints the environment
  * @environ: environ
  *
  * Return: void
  */
-void built_env(char **environ)
+void env(char **environ)
 {
-	unsigned int i, length;
+	unsigned int i, len;
 
 	i = 0;
 	while (environ[i])
 	{
-		length = _strlen(environ[i]);
-		write(STDOUT_FILENO, environ[i], length);
+		len = _strlen(environ[i]);
+		write(STDOUT_FILENO, environ[i], len);
 		write(STDOUT_FILENO, "\n", 1);
 		++i;
 	}
