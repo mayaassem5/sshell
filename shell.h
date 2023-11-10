@@ -1,35 +1,47 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef _SHELL_H_
+#define _SHELL_H_
+
+#define _GNU_SOURCE
 
 #include <stdio.h>
-#include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <errno.h>
-#include <fcntl.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <time.h>
+#include <libgen.h>
 
-void interact(void);
-int failed(int len);
+extern char **environ;
+char *_getenv(const char *name);
+char *findpath(char *command, int *retVal);
 
-void print_env(char **env);
-int envcheck(char *ag, char **env);
-char *_getenv(char **env, char *wanted);
-
-int execute(char **line, char *path, char **av);
-
-char **tokenize(char *str);
-
+/*str_tools*/
 int _strlen(char *s);
-char *_strchr(char *s, char c);
+int _strncmp(char *s1, char *s2, int n);
+char *str_concat(char *s1, char *s2);
 char *_strdup(char *str);
-int _strcmp(char *s1, char *s2);
-char *_strcat(char *dwest, char *src);
+char *_strncpy(char *dest, char *src, int n);
 
-unsigned int _strspn(char *s, char *accept);
-char *_strtok(char *str, char *delimiters);
-char *_strpbrk(char *s, char *accept);
+/*free*/
+void _free_parent(char *buffer, char **commands);
+void _free_double_pointer(char **pointer);
+
+/*tok_tools*/
+unsigned int find_length(char *s);
+char **s_tok(char *str);
+
+/*_built-ins*/
+int check_builtin(char *line, char **command, int *retVal);
+void built_env(char **environ);
+
+/*print_error*/
+void error_printing(char *av, int count, char *command);
+void exec_error(char *av, int count, char *tmp_command);
+void print_string(char *str, int new_line);
+int print_number(int n);
+int _write(char c);
 
 #endif

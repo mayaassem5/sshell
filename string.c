@@ -1,107 +1,132 @@
 #include "shell.h"
 /**
- * _strchr - locates a character in a string,
- * @s: string.
- * @c: character.
- * Return: the pointer to the first occurrence of the character c.
- */
-char *_strchr(char *s, char c)
-{
-	unsigned int i = 0;
-
-	for (; *(s + i) != '\0'; i++)
-		if (*(s + i) == c)
-			return (s + i);
-	if (*(s + i) == c)
-		return (s + i);
-	return ('\0');
-}
-
-/**
- * _strlen - returns the length of a string.
- * @s: input string.
- * Return: length of a string.
+ * _strlen - Function that returns string lenght
+ * @s: pointer to string
+ * Return: Length
  */
 int _strlen(char *s)
 {
-	int count = 0;
+	int l = 0;
 
-	while (*(s + count) != '\0')
-		count++;
-	return (count);
+	while (*s != '\0')
+	{
+		l++;
+		s++;
+	}
+	return (l);
 }
-
 /**
- * _strcmp - compares two strings
- * @s1: first string.
- * @s2: second string.
- * Return: 0 if s1 and s2 are equals,
- * another number if not.
+ * _strncmp - Function that returns string lenght
+ * @s1: pointer to string
+ * @s2: pointer to string
+ * @n: number of positions to compare
+ * Return: Compared string
  */
-
-int _strcmp(char *s1, char *s2)
+int _strncmp(char *s1, char *s2, int n)
 {
-	int cmp;
-	cmp = (int)*s1 - (int)*s2;
+	int i = 0;
+
+	while (i < n)
+	{
+		if (s1[i] != s2[i])
+			return (-1);
+		else if (s1[i] == s2[i])
+			i++;
+	}
+	return (0);
+}
+/**
+ * str_concat - concatenate to strings
+ *@s1: string
+ *@s2: string
+ * Return: the string concat
+ */
+char *str_concat(char *s1, char *s2)
+{
+	char *array;
+	int i = 0, l1 = 0, l2 = 0;
+
+	if (s1 == NULL)
+		s1 = "";
+	if (s2 == NULL)
+		s2 = "";
+
+	while (s1[l1] != '\0')
+	{
+		l1++;
+	}
+
+	while (s2[l2] != '\0')
+	{
+		l2++;
+	}
+
+	array = malloc(sizeof(char) * (l1 + l2 + 1));
+	if (array == NULL)
+		return (NULL);
 
 	while (*s1)
 	{
-		if (*s1 != *s2)
-			break;
+		array[i] = *s1;
+		i++;
 		s1++;
-		s2++;
-		cmp = (int)*s1 - (int)*s2;
 	}
-	return (cmp);
-}
 
+	while (*s2)
+	{
+		array[i] = *s2;
+		i++;
+		s2++;
+	}
+	array[i] = '\0';
+	return (array);
+}
 /**
- * _strdup - returns a pointer to a newly allocated space in memory.
- * @str: string.
- *
- * Return: pointer of an array of chars
+ * *_strncpy - check the code for Holberton School students.
+ *@dest: char
+ *@src: char
+ *@n: int
+ * Return: Always 0.
+ */
+char *_strncpy(char *dest, char *src, int n)
+{
+	int i;
+
+	for (i = 0; i < n && src[i] != 0; i++)
+	{
+		dest[i] = src[i];
+	}
+	for (; i < n; i++)
+	{
+		dest[i] = '\0';
+	}
+
+	return (dest);
+}
+/**
+ * _strdup - string duplicate with malloc
+ *@str: string
+ * Return: the string
  */
 char *_strdup(char *str)
 {
-	char *strout;
-	unsigned int i, j;
+	char *copy;
+	int i, largo = 0;
 
-	if (str == NULL)
+	if (!str)
 		return (NULL);
 
-	for (i = 0; str[i] != '\0'; i++)
-		;
-
-	strout = (char *)malloc(sizeof(char) * (i + 1));
-
-	if (strout == NULL)
-		return (NULL);
-
-	for (j = 0; j <= i; j++)
-		strout[j] = str[j];
-
-	return (strout);
-}
-
-/**
- * _strcat - returns a pointer to a concenatde string
- * @dest: string.
- * @src: source str
- *
- * Return: pointer of an array of chars
- */
-char *_strcat(char *dest, char *src)
-{
-	char *p = dest;
-
-	while (*p)
-		p++;
-	while (*src)
+	while (str[largo] != '\0')
 	{
-		*p = *src;
-		p++;
-		src++;
+		largo++;
 	}
-	*p = '\0';
-	return (dest);
+
+	copy = malloc(sizeof(char) * (largo + 1));
+	if (copy == NULL)
+		return (NULL);
+
+	for (i = 0; i <= largo; i++)
+		copy[i] = str[i];
+
+	return (copy);
 }
